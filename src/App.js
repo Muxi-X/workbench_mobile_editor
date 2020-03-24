@@ -105,7 +105,7 @@ class App extends React.Component {
                     style={{
                         width: width,
                         height: '61px',
-                        'font-size': '20px'
+                        fontSize: '20px'
                     }}
                 />
                 <div className="editor">
