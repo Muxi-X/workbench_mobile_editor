@@ -28,7 +28,7 @@ class App extends React.Component {
         this.getContent = this.getContent.bind(this)
         this.getTitle = this.getTitle.bind(this)
         this.handleInputChange = this.handleInputChange.bind(this)
-     }
+    }
 
     handleEditorChange = (content) => {
         this.setState({
@@ -54,14 +54,17 @@ class App extends React.Component {
         window.getContent = this.getContent
         window.getTitle = this.getTitle
         this.setState({
-            titleValue: window.android.getStatusTitle()
+            // titleValue: window.android.getStatusTitle()
+            titleValue: ''
         })
     }
 
     uploadHandler = (blobInfo, success, failure) => {
         const xhr = new XMLHttpRequest();
-        const token = window.android.getToken()
+        // const token = window.android.getToken()
+        const token = 'eyJpYXQiOjE1ODEzMzc3NTEsImV4cCI6MTg5NjY5Nzc1MSwiYWxnIjoiSFMyNTYifQ.eyJjb25maXJtIjoxMTV9.3E1oeNotLWE276mRmhsVfBtNQwQTAWpMhiNFEB6LEPY'
         xhr.withCredentials = false;
+
 
         xhr.open("POST", "api/v1.0/editor/image/");
         xhr.setRequestHeader("token", token);
@@ -90,7 +93,8 @@ class App extends React.Component {
     render() {
         const editHeight = document.documentElement.clientHeight - 75
         const width = document.documentElement.clientWidth
-        const initContent = window.android.getEdits()
+        // const initContent = window.android.getEdits()
+        const initContent = "<p>123123</p>"
         const {titleValue} = this.state
         return (
             <div>
@@ -105,90 +109,90 @@ class App extends React.Component {
                     }}
                 />
                 <div className="editor">
-            <Editor
-                initialValue={initContent}
-                init={{
-                    mobile: {
-                        menubar: true,
-                        height: editHeight,
-                        skin: 'oxide',
-                        language: "zh_CN",
-                        language_url: "http://static.muxixyz.com/workbench/lang/zh_CN.js",
-                        powerpaste_allow_local_images: true,
-                        images_upload_handler: this.uploadHandler,
-                        paste_data_images: true,
-                        skin_url: "http://static.muxixyz.com/workbench/skins/ui/oxide",
-                        textpattern_patterns: [
-                            {start: "*", end: "*", format: "italic"},
-                            {start: "**", end: "**", format: "bold"},
-                            {
-                                start: "~",
-                                end: "~",
-                                cmd: "createLink",
-                                value: "http://work.muxi-tech.xyz"
+                    <Editor
+                        initialValue={initContent}
+                        init={{
+                            mobile: {
+                                menubar: true,
+                                height: editHeight,
+                                skin: 'oxide',
+                                language: "zh_CN",
+                                language_url: "http://static.muxixyz.com/workbench/lang/zh_CN.js",
+                                powerpaste_allow_local_images: true,
+                                images_upload_handler: this.uploadHandler,
+                                paste_data_images: true,
+                                skin_url: "http://static.muxixyz.com/workbench/skins/ui/oxide",
+                                textpattern_patterns: [
+                                    {start: "*", end: "*", format: "italic"},
+                                    {start: "**", end: "**", format: "bold"},
+                                    {
+                                        start: "~",
+                                        end: "~",
+                                        cmd: "createLink",
+                                        value: "http://work.muxi-tech.xyz"
+                                    },
+                                    {start: "#", format: "h1"},
+                                    {start: "##", format: "h2"},
+                                    {start: "###", format: "h3"},
+                                    {start: "####", format: "h4"},
+                                    {start: "#####", format: "h5"},
+                                    {start: "######", format: "h6"},
+                                    {start: "* ", cmd: "InsertUnorderedList"},
+                                    {start: "- ", cmd: "InsertUnorderedList"},
+                                    {start: "+ ", cmd: "InsertUnorderedList"},
+                                    {
+                                        start: "1. ",
+                                        cmd: "InsertOrderedList",
+                                        value: {"list-style-type": "decimal"}
+                                    },
+                                    {
+                                        start: "1) ",
+                                        cmd: "InsertOrderedList",
+                                        value: {"list-style-type": "decimal"}
+                                    },
+                                    {
+                                        start: "a. ",
+                                        cmd: "InsertOrderedList",
+                                        value: {"list-style-type": "lower-alpha"}
+                                    },
+                                    {
+                                        start: "a) ",
+                                        cmd: "InsertOrderedList",
+                                        value: {"list-style-type": "lower-alpha"}
+                                    },
+                                    {
+                                        start: "i. ",
+                                        cmd: "InsertOrderedList",
+                                        value: {"list-style-type": "lower-roman"}
+                                    },
+                                    {
+                                        start: "i) ",
+                                        cmd: "InsertOrderedList",
+                                        value: {"list-style-type": "lower-roman"}
+                                    },
+                                    {start: "---", replacement: "<hr/>"},
+                                    {start: "--", replacement: "—"},
+                                    {start: "-", replacement: "—"},
+                                    {start: "(c)", replacement: "©"},
+                                    {start: "//brb", replacement: "Be Right Back"},
+                                    {
+                                        start: "//heading",
+                                        replacement:
+                                            '<h1 style="color: blue">Heading here</h1> <h2>Author: Name here</h2> <p><em>Date: 01/01/2000</em></p> <hr />'
+                                    }
+                                ],
+                                plugins:
+                                    "tabfocus textpattern image paste link lists table imagetools codesample advlist wordcount",
+                                toolbar:
+                                    "undo redo | bold italic formatselect | forecolor backcolor | alignleft aligncenter alignright  alignjustify | bullist numlist | image | link | codesample| wordcount",
+                                toolbar_location: 'bottom',
+                                toolbar_mode: 'sliding',
                             },
-                            {start: "#", format: "h1"},
-                            {start: "##", format: "h2"},
-                            {start: "###", format: "h3"},
-                            {start: "####", format: "h4"},
-                            {start: "#####", format: "h5"},
-                            {start: "######", format: "h6"},
-                            {start: "* ", cmd: "InsertUnorderedList"},
-                            {start: "- ", cmd: "InsertUnorderedList"},
-                            {start: "+ ", cmd: "InsertUnorderedList"},
-                            {
-                                start: "1. ",
-                                cmd: "InsertOrderedList",
-                                value: {"list-style-type": "decimal"}
-                            },
-                            {
-                                start: "1) ",
-                                cmd: "InsertOrderedList",
-                                value: {"list-style-type": "decimal"}
-                            },
-                            {
-                                start: "a. ",
-                                cmd: "InsertOrderedList",
-                                value: {"list-style-type": "lower-alpha"}
-                            },
-                            {
-                                start: "a) ",
-                                cmd: "InsertOrderedList",
-                                value: {"list-style-type": "lower-alpha"}
-                            },
-                            {
-                                start: "i. ",
-                                cmd: "InsertOrderedList",
-                                value: {"list-style-type": "lower-roman"}
-                            },
-                            {
-                                start: "i) ",
-                                cmd: "InsertOrderedList",
-                                value: {"list-style-type": "lower-roman"}
-                            },
-                            {start: "---", replacement: "<hr/>"},
-                            {start: "--", replacement: "—"},
-                            {start: "-", replacement: "—"},
-                            {start: "(c)", replacement: "©"},
-                            {start: "//brb", replacement: "Be Right Back"},
-                            {
-                                start: "//heading",
-                                replacement:
-                                    '<h1 style="color: blue">Heading here</h1> <h2>Author: Name here</h2> <p><em>Date: 01/01/2000</em></p> <hr />'
-                            }
-                        ],
-                        plugins:
-                            "tabfocus textpattern image paste link lists table imagetools codesample advlist wordcount",
-                        toolbar:
-                            "undo redo | bold italic formatselect | forecolor backcolor | alignleft aligncenter alignright  alignjustify | bullist numlist | image | link | codesample| wordcount",
-                        toolbar_location: 'bottom',
-                        toolbar_mode: 'sliding',
-                    },
-                    skin_url: "http://static.muxixyz.com/workbench/skins/ui/oxide",
-                }}
-                onEditorChange={this.handleEditorChange}
-            />
-            </div>
+                            skin_url: "http://static.muxixyz.com/workbench/skins/ui/oxide",
+                        }}
+                        onEditorChange={this.handleEditorChange}
+                    />
+                </div>
             </div>
         );
     }
