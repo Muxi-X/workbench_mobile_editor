@@ -54,20 +54,18 @@ class App extends React.Component {
         window.getContent = this.getContent
         window.getTitle = this.getTitle
         this.setState({
-            // titleValue: window.android.getStatusTitle()
-            titleValue: ''
+            titleValue: window.android.getStatusTitle()
         })
     }
 
     uploadHandler = (blobInfo, success, failure) => {
         const xhr = new XMLHttpRequest();
-        // const token = window.android.getToken()
-        const token = 'eyJpYXQiOjE1ODEzMzc3NTEsImV4cCI6MTg5NjY5Nzc1MSwiYWxnIjoiSFMyNTYifQ.eyJjb25maXJtIjoxMTV9.3E1oeNotLWE276mRmhsVfBtNQwQTAWpMhiNFEB6LEPY'
+        const token = window.android.getToken()
         xhr.withCredentials = false;
 
-
-        xhr.open("POST", "api/v1.0/editor/image/");
+        xhr.open("POST", "http://work.muxi-tech.xyz/api/v1.0/editor/image/");
         xhr.setRequestHeader("token", token);
+
         xhr.onload = () => {
             if (xhr.status !== 200) {
                 failure(`HTTP Error: ${xhr.status}`);
@@ -93,8 +91,7 @@ class App extends React.Component {
     render() {
         const editHeight = document.documentElement.clientHeight - 75
         const width = document.documentElement.clientWidth
-        // const initContent = window.android.getEdits()
-        const initContent = "<p>123123</p>"
+        const initContent = window.android.getEdits()
         const {titleValue} = this.state
         return (
             <div>
@@ -113,7 +110,6 @@ class App extends React.Component {
                         initialValue={initContent}
                         init={{
                             mobile: {
-                                menubar: true,
                                 height: editHeight,
                                 skin: 'oxide',
                                 language: "zh_CN",
@@ -184,7 +180,7 @@ class App extends React.Component {
                                 plugins:
                                     "tabfocus textpattern image paste link lists table imagetools codesample advlist wordcount",
                                 toolbar:
-                                    "undo redo | bold italic formatselect | forecolor backcolor | alignleft aligncenter alignright  alignjustify | bullist numlist | image | link | codesample| wordcount",
+                                    "undo redo| bullist numlist | image | link | codesample |bold italic formatselect | forecolor backcolor | alignleft aligncenter alignright  alignjustify | wordcount",
                                 toolbar_location: 'bottom',
                                 toolbar_mode: 'sliding',
                             },
