@@ -22,11 +22,10 @@ class App extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            contentValue: '',
-            titleValue: ''
+            titleValue: '',
+            contentValue: ''
         }
-        this.getContent = this.getContent.bind(this)
-        this.getTitle = this.getTitle.bind(this)
+        this.getEditor = this.getEditor.bind(this)
         this.handleInputChange = this.handleInputChange.bind(this)
     }
 
@@ -42,17 +41,16 @@ class App extends React.Component {
         })
     }
 
-    getContent() {
-        return (this.state.contentValue)
+
+    getEditor() {
+        const {titleValue, contentValue} = this.state
+        let jsonStr = `{"title": "${titleValue}","content": "${contentValue}"}`
+        return JSON.parse(jsonStr)
     }
 
-    getTitle() {
-        return (this.state.titleValue)
-    }
 
     componentDidMount() {
-        window.getContent = this.getContent
-        window.getTitle = this.getTitle
+        window.getEditor = this.getEditor
         this.setState({
             titleValue: window.android.getStatusTitle()
         })
@@ -71,7 +69,6 @@ class App extends React.Component {
                 failure(`HTTP Error: ${xhr.status}`);
                 return;
             }
-            console.log(xhr.responseText)
             const json = JSON.parse(xhr.responseText);
 
             if (!json || typeof json.image_url !== "string") {
@@ -89,8 +86,7 @@ class App extends React.Component {
 
 
     render() {
-        const editHeight = document.documentElement.clientHeight - 75
-        const width = document.documentElement.clientWidth
+        const editHeight = (document.documentElement.clientHeight || document.body.clientHeight) - 75
         const initContent = window.android.getEdits()
         const {titleValue} = this.state
         return (
@@ -100,7 +96,7 @@ class App extends React.Component {
                     value={titleValue}
                     onChange={this.handleInputChange}
                     style={{
-                        width: width,
+                        width: "100%",
                         height: '61px',
                         fontSize: '20px'
                     }}
